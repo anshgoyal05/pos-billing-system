@@ -1,0 +1,13 @@
+#mainheading {
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.product-group {
+    display: flex;
+}
+
+.product-group>div {
+    padding: 10px;
+}
