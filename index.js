@@ -1,7 +1,4 @@
-//Testing weather this js file is contected.
-//window.alert("Hello, world!");
-
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const products = [
     { productId: "101", productName: "Samosa", productPrice: "10" },
@@ -26,7 +23,36 @@ function getData(val) {
         productFilterInput.value = product[0].productName;
         productPriceInput.value = product[0].productPrice;
         productQtyInput.focus();
+        return;
     }
+}
+
+function renderData() {
+    cart.forEach((item) => {
+        const row = tablebody.insertRow();
+        row.setAttribute("id", item.id);
+
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
+        const cell4 = row.insertCell(3);
+        const cell5 = row.insertCell(4);
+
+        cell1.textContent = item.name;
+        cell2.textContent = item.price;
+        cell3.textContent = item.quantity;
+        cell4.textContent = item.total;
+        cell5.innerHTML = `<button class="remove-btn" aria-label="Remove">&#10060;</button>`;
+    })
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderData();
+    productFilterInput.focus();
+})
+
+function saveCartToLocalStorage() {
+    localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 function addNewRow(productName, productPrice, productQty) {
@@ -55,6 +81,7 @@ function addNewRow(productName, productPrice, productQty) {
     }
 
     cart.push(item);
+    saveCartToLocalStorage();
     console.log(cart);
 }
 
@@ -80,4 +107,16 @@ addToCartButton.addEventListener("click", () => {
     productPriceInput.value = "";
     productQtyInput.value = "";
     productFilterInput.focus();
+})
+
+tablebody.addEventListener("click", (event) => {
+    const button = event.target.closest(".remove-btn");
+    if (button) {
+        const row = button.closest("tr");
+        const rowId = row.getAttribute("id");
+        cart = cart.filter(data => data.id !== rowId);
+        saveCartToLocalStorage();
+        console.log(cart);
+        row.remove();
+    }
 })
