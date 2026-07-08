@@ -12,6 +12,10 @@ const productPriceInput = document.getElementById("product-price");
 const productQtyInput = document.getElementById("product-qty");
 const addToCartButton = document.getElementById("add-to-cart");
 const tablebody = document.getElementById("cart-items-body");
+const totalItems = document.getElementById("total-items");
+const subTotal = document.getElementById("sub-total");
+const gst = document.getElementById("GST");
+const grantTotal = document.getElementById("grant-total");
 
 function getData(val) {
     const product = products.filter((data) => data.productId === val);
@@ -46,8 +50,23 @@ function renderData() {
     })
 }
 
+function billCalculation() {
+
+    let st = 0.0;
+    let tax = 0.0;
+    totalItems.textContent = cart.length;
+    cart.forEach((item) => {
+        st += parseFloat(item.total);
+    });
+    tax = st * 0.18;
+    subTotal.textContent = st.toFixed(2);
+    gst.textContent = tax.toFixed(2);
+    grantTotal.textContent = (st + tax).toFixed(2);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     renderData();
+    billCalculation();
     productFilterInput.focus();
 })
 
@@ -82,7 +101,7 @@ function addNewRow(productName, productPrice, productQty) {
 
     cart.push(item);
     saveCartToLocalStorage();
-    console.log(cart);
+    billCalculation();
 }
 
 productFilterInput.addEventListener("keydown", (event) => {
@@ -116,6 +135,7 @@ tablebody.addEventListener("click", (event) => {
         const rowId = row.getAttribute("id");
         cart = cart.filter(data => data.id !== rowId);
         saveCartToLocalStorage();
+        billCalculation();
         console.log(cart);
         row.remove();
     }
