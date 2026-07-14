@@ -138,7 +138,8 @@ button {
     font: inherit;
 }
 
-#add-to-cart {
+#add-to-cart,
+#finalbill {
     min-height: 48px;
     padding: 0 24px;
     border: 2px solid var(--coke-red);
@@ -152,13 +153,15 @@ button {
     transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-#add-to-cart:hover {
+#add-to-cart:hover,
+#finalbill:hover {
     background: var(--coke-red-dark);
     box-shadow: 0 18px 36px rgba(244, 0, 9, 0.30);
     transform: translateY(-1px);
 }
 
-#add-to-cart:active {
+#add-to-cart:active,
+#finalbill:active {
     transform: translateY(0);
 }
 
@@ -329,6 +332,81 @@ td:nth-child(5) {
 
 .grant-total span {
     color: var(--paper);
+}
+
+#finalbill {
+    display: block;
+    margin: 0 auto 26px;
+}
+
+.invoice {
+    display: none;
+    width: min(1120px, 100%);
+    margin: 0 auto 26px;
+    padding: 26px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.invoice.show {
+    display: block;
+}
+
+.invoice h2 {
+    margin: 0 0 16px;
+}
+
+.invoice p {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 8px 0;
+    color: var(--ink);
+    font-weight: 700;
+}
+
+#invoice-table {
+    width: 100%;
+    margin-top: 16px;
+    border-collapse: collapse;
+}
+
+#invoice-table th,
+#invoice-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+}
+
+#invoice-table th {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+#invoice-table td:last-child,
+#invoice-table th:last-child {
+    text-align: right;
+}
+
+.invoice .summary {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+}
+
+.invoice .summary .grand {
+    color: var(--coke-red);
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+.invoice .footer {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-weight: 700;
 }
 
 @media (max-width: 900px) {

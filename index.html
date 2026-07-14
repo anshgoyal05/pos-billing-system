@@ -57,7 +57,54 @@
             </div>
         </div>
     </div>
-
+    <button id="finalbill">Generate Invoice</button>
+    <div class="invoice" id="invoice">
+        <h2>RETAIL BILL</h2>
+        <hr>
+        <p>
+            <span>Invoice No.</span>
+            <span id="invoice-number"></span>
+        </p>
+        <p>
+            <span>Date</span>
+            <span id="invoice-date"></span>
+        </p>
+        <p>
+            <span>Time</span>
+            <span id="invoice-time"></span>
+        </p>
+        <h3>Purchased Items</h3>
+        <table id="invoice-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="invoice-items">
+            </tbody>
+        </table>
+        <div class="summary">
+            <p>
+                <span>Subtotal</span>
+                <span>₹<span id="invoice-subtotal"></span></span>
+            </p>
+            <p>
+                <span>GST (18%)</span>
+                <span>₹<span id="invoice-gst"></span></span>
+            </p>
+            <p class="grand">
+                <span>Grand Total</span>
+                <span>₹<span id="invoice-grandtotal"></span></span>
+            </p>
+        </div>
+        <div class="footer">
+            <p>Thank You for Shopping!</p>
+            <p>Visit Again </p>
+        </div>
+    </div>
     <script src="index.js"></script>
 </body>
 

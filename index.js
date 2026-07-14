@@ -16,6 +16,15 @@ const totalItems = document.getElementById("total-items");
 const subTotal = document.getElementById("sub-total");
 const gst = document.getElementById("GST");
 const grantTotal = document.getElementById("grant-total");
+const invoice = document.getElementById("invoice");
+const invoiceItems = document.getElementById("invoice-items");
+const invoiceNumber = document.getElementById("invoice-number");
+const invoiceDate = document.getElementById("invoice-date");
+const invoiceTime = document.getElementById("invoice-time");
+const invoiceSubtotal = document.getElementById("invoice-subtotal");
+const invoiceGst = document.getElementById("invoice-gst");
+const invoiceGrandTotal = document.getElementById("invoice-grandtotal");
+const finalBillButton = document.getElementById("finalbill");
 
 function getData(val) {
     const product = products.filter((data) => data.productId === val);
@@ -65,6 +74,7 @@ function billCalculation() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    invoice.style.display = "none";
     renderData();
     billCalculation();
     productFilterInput.focus();
@@ -136,7 +146,45 @@ tablebody.addEventListener("click", (event) => {
         cart = cart.filter(data => data.id !== rowId);
         saveCartToLocalStorage();
         billCalculation();
-        console.log(cart);
         row.remove();
     }
 })
+
+function generateInvoice() {
+    if (cart.length === 0) {
+        window.alert("Cart is empty");
+        return;
+    }
+
+    const now = new Date();
+    invoiceNumber.textContent = `INV-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}${String(now.getHours()).padStart(2, "0")}${String(now.getMinutes()).padStart(2, "0")}${String(now.getSeconds()).padStart(2, "0")}`;
+    invoiceDate.textContent = now.toLocaleDateString("en-IN");
+    invoiceTime.textContent = now.toLocaleTimeString("en-IN");
+
+    invoiceItems.innerHTML = "";
+
+    let subtotal = 0;
+    cart.forEach((item) => {
+        subtotal += parseFloat(item.total);
+
+        const row = invoiceItems.insertRow();
+        const itemNameCell = row.insertCell(0);
+        const itemPriceCell = row.insertCell(1);
+        const itemQtyCell = row.insertCell(2);
+        const itemTotalCell = row.insertCell(3);
+
+        itemNameCell.textContent = item.name;
+        itemPriceCell.textContent = item.price;
+        itemQtyCell.textContent = item.quantity;
+        itemTotalCell.textContent = parseFloat(item.total).toFixed(2);
+    });
+
+    const gstAmount = subtotal * 0.18;
+    invoiceSubtotal.textContent = subtotal.toFixed(2);
+    invoiceGst.textContent = gstAmount.toFixed(2);
+    invoiceGrandTotal.textContent = (subtotal + gstAmount).toFixed(2);
+    invoice.style.display = "block";
+    invoice.classList.add("show");
+}
+
+finalBillButton.addEventListener("click", generateInvoice);
